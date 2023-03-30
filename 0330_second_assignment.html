@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>second_assignment</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    </head>
+    <body>
+        <!-- 
+        성적관리 프로그램
+        이름 / 국어 / 영어 / 수학
+        입력은 input태그 사용. 총점과 평균 출력은 div태그 사용
+        각 값의 입력범위 체크 (0~100)
+        총점과 평균 출력
+        j query이용 출력
+     -->
+        이름 : <input type="text" id="name"/><br />
+        국어 : <input type="text" id="kor" /><br />
+        영어 : <input type="text" id="eng" onkeypress="inNumber()"/><br />
+        수학 : <input type="text" id="mat" onkeypress="inNumber()"/><br /><br />
+
+        <!-- <button type="button" onclick="calc()">계산하기</button> -->
+        <input id="calc" value="결과확인" style="padding: 10px; text-align: center;"></button>
+        <div id="result"></div>
+
+        <br />
+    </body>
+</html>
+<script>
+
+        
+    ///// j query /////
+
+    
+    $(document).ready(() => {
+        $("#calc").click(() => {
+            name = $("#name").val();
+            kor = parseInt($("#kor").val());
+            eng = parseInt($("#eng").val());
+            mat = parseInt($("#mat").val());
+
+
+        if (kor < 0 || kor > 100){
+            alert("국어점수를 0~100점 사이 점수로 입력해주세요");
+            return false;
+        }
+        if (eng < 0 || eng > 100){
+            alert("영어점수를 0~100점 사이 점수로 입력해주세요");
+            return false;
+        }
+        if (mat < 0 || mat > 100){
+            alert("수학점수를 0~100점 사이 점수로 입력해주세요");
+            return false;
+        }
+
+
+            sumScore = kor + eng + mat;
+            avgScore = ((kor + eng + mat) / 3).toFixed(2);
+
+            temp = `${name}의 총점은 ${sumScore}점 이고, 평균은 ${avgScore}점 입니다.`;
+            $("#result").html(temp);
+        });
+    });
+
+    ///// js /////
+    // function calc() {
+    //     name = document.getElementById("name").value;
+    //     kor = document.getElementById("kor").value;
+    //     kor = parseInt(kor);
+    //     eng = document.getElementById("eng").value;
+    //     eng = parseInt(eng);
+    //     mat = document.getElementById("mat").value;
+    //     mat = parseInt(mat);
+
+    // if (kor < 0 || kor > 100){
+    //         alert("국어점수를 0~100점 사이 점수로 입력해주세요");
+    //         return false;
+    // }
+    // if (eng < 0 || eng > 100){
+    //     alert("영어점수를 0~100점 사이 점수로 입력해주세요");
+    //     return false;
+    // }
+    // if (mat < 0 || mat > 100){
+    //     alert("수학점수를 0~100점 사이 점수로 입력해주세요");
+    //     return false;
+    // }
+
+
+    //     sumScore = kor + eng + mat;
+    //     avgScore = ((kor + eng + mat) / 3).toFixed(2);
+
+    //     console.log(sumScore);
+    //     console.log(avgScore);
+
+    //     temp = `${name}의 총점은 ${sumScore}점 이고, 평균은 ${avgScore}점 입니다.`;
+    //     document.getElementById("result");
+    //     document.getElementById("result").innerHTML = temp;
+    // }
+
+
+
+    //???????
+    //onkeypress="inNumber()"
+    //function inNumber() {
+    //     if (event.keyCode < 48 || event.keyCode > 57) {
+    //         event.returnValue = false; //해당문자가 input태그에 나타나는 것을 막는다
+    //     }
+    // }
+    //oninput="goInput(this)" 
+    //     me.value = me.value.replace(/[0-99]/, ""); 
+    // } 
+    ////정규식은 안되는건가효
+
+</script>
+
+
+
