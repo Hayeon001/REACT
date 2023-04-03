@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>문자형예제</title>
+    </head>
+    <body></body>
+</html>
+<script>
+    let str1 = "Hello";
+    let str2 = "단일따옴표";
+    let str3 = `backtick ${str1} ${str2}`;
+
+    console.log(str1);
+    console.log(str2);
+    console.log(str3);
+
+    let name = "홍길동";
+    let age = 34;
+    let phone = "010-1234";
+    let address = "서울시 관악구 대학동";
+
+    result1 =
+        "이름: " +
+        name +
+        " 나이: " +
+        age +
+        " 전화: " +
+        phone +
+        " 주소: " +
+        address;
+    result2 = `이름: ${name} 나이: ${age} 전화: ${phone} 주소: ${address}`;
+
+    console.log(result1);
+    console.log(result2);
+
+    str1 = `
+            진달래
+
+                김소월
+
+            나보기가 역겨워 가실 때에는
+            말없이 고이 보내 드리오리다
+        `;
+    console.log(str1); //`백틱은 들어쓰기 띄워쓰기 모두 인식
+
+    str1 = `
+        이름: ${name} 
+        나이: ${age} 
+        전화: ${phone} 
+        주소: ${address}`;
+
+    console.log(str1);
+    //여러줄로 작업할때 "따옴표" 생각안해도되서 편리
+
+    //38p
+    //문자형예제2
+    let x = 10;
+    let y = 20;
+
+    console.log(`${x} + ${y} = ${x + y}`); //10 + 20 = 30
+    console.log(`${x} - ${y} = ${x - y}`); //10 - 20 = -10
+    console.log(`${x} * ${y} = ${x * y}`); //10 * 20 = 200
+    console.log(`${x} / ${y} = ${x / y}`); //10 / 20 = 0.5
+</script>

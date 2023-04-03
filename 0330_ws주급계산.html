@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ws주급계산 Jquery로 바꿔보기</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    </head>
+    <body>
+        이름 : <input type="text" id="empName" /> 님<br />
+        일주일간 근무시간 :
+        <input type="text" id="workTime" /> 시간<br />
+        시간당 급여액 :
+        <input type="text" id="hourPay" /> 원<br />
+        주급: <input type = "text" id="result" readonly> </br>
+
+        <button type="button" id="btnConfirm">주급 계산하기</button>&nbsp;&nbsp;
+        <button type="button" id="btnClear">새로입력</button><br />
+
+        
+    </body>
+</html>
+<script>
+    $(document).ready(() => {
+        $("#btnConfirm").click(() => {
+            workTime = parseInt($("#workTime").val());
+            hourPay = parseInt($("#hourPay").val());
+            result = workTime * hourPay;
+            $("#result").val(result);
+        });
+
+        $("#btnClear").click(() => {
+            $("#empName").val("");
+            $("#workTime").val("");
+            $("#hourPay").val("");
+            $("#result").val("");
+        });
+    });
+
+</script>

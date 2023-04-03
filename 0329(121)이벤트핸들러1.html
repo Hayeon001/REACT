@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <button>누르세요</button>
+        <!--submit과 같음-->
+
+        <button type="button">누르세요</button><br /><br />
+        <!-- 이렇게 써야 button태그와 같아짐-->
+
+        <!-- 
+
+        <input type = "submit"> : submit은 무조건 서버로 전송. 막을수없어
+                                  데이터가 제대로 들어갔을때만 보내고 싶을 때 막을수없어
+        <input type = "buttom"> : button 이벤트만 발생시킴
+
+        -->
+
+        <button type="button" onclick="goDisplay()">누르세요</button><br />
+        <!--
+        onclick : os가 먼저 인식. onclick 이벤트가 정의되어있음.
+                  우리가 호출하는게 아니야. 함수를 넣어 이벤트를 제어
+        콘솔 : 모니터 키보드
+        GUI
+        -->
+
+        <button type="button" id="btnPress">누르세요2</button><br />
+        <button type="button" id="btnPress2">누르세요3</button><br />
+        <!-- 같은 id는 한 페이지에 하나만 -->
+    </body>
+</html>
+<script>
+    function goDisplay() {
+        alert("button 눌림");
+    }
+    // 만들기는 내가 만들지만, 시스템에 의해 호출됨 : 콜백함수 //81p
+    // 콜백함수 호출자는 시스템. 함수의 매개변수, 반환값여부 등 시스템이 결정
+    // 초창기 스크립트는 header에 있었음.
+
+    window.onload = function () {
+        //표현식1
+
+        document
+            .getElementById("btnPress")
+            .addEventListener("click", function () {
+                alert("두번째버튼"); //표현식2
+            });
+
+        document.getElementById("btnPress2").addEventListener("click", () => {
+            alert("세번째버튼"); //표현식2
+        });
+    };
+
+    // 버튼 객체가 있는데, 함수를 나중에 붙임
+    // btnPress가 먼저 발생되면 오류발생하므로 window~를 앞에 붙여줌
+</script>

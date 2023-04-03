@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery배경색</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+</head>
+<body id = "body">
+    <button id = "btn1" style = "background-color: aqua" >배경색</button></br>
+    <button id = "btn2" style = "background-color: rgb(0, 255, 38)" >배경색</button></br>
+    <button id = "btn3" style = "background-color: rgb(255, 234, 0)" >배경색</button></br>
+    <button style = "background-color: rgb(244, 170, 236)" >배경색</button></br>
+    <button style = "background-color: rgb(255, 0, 98)" >배경색</button></br>
+    <button style = "background-color: rgb(0, 38, 255)" >배경색</button></br>
+    <button style = "background-color: rgba(255, 204, 0, 0.83)" >배경색</button></br>
+    <button style = "background-color: rgb(179, 0, 255)" >배경색</button></br>
+</body>
+</html>
+<script>
+    //배경색 빨갛게 바꾸기
+    // $(document).ready(()=>{
+    //     $("#btn1").click(()=>{
+    //         $("body").css("background-color", "#ff0000")
+    //     })
+    // })
+
+    //버튼 색으로 배경 가져오기
+    $(document).ready(()=>{
+        $("button").click(function(){
+            $("body").css("background-color", 
+                $(this).css("background-color"));
+        });
+    });
+
+
+    // $(document).ready(()=>{
+    //     $("#btn1").click(()=>{
+    //         $("body").css("background-color", 
+    //             $(this).css("background-color"))
+    //     })
+    // })
+    //$(this)는 클릭된 버튼을 가리키게 됩니다. 
+    //그러나 arrow function 내에서 this는 전역 객체를 가리키므로, 
+    //클릭된 버튼 대신 전역 객체의 background-color가 적용됩니다.
+
+
+    // $(document).ready(()=>{
+    //     $("button").click((btn)=>{
+    //         console.log(btn);
+    //         $("body").css("background-color", 
+    //             $(btn.target.style.background-color));
+    //     });
+    // });
+
+    //
+    // $(document).ready(()=>{
+    //     $("button").click((btn)=>{
+    //         console.log(btn);
+    //         $("body").css("background-color", 
+    //             $("#"+btn.target.id).css("background-color"));
+    //     });
+    // });
+</script>

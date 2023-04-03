@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>테이블동적추가2</title>
+    </head>
+    <body>
+        <button type="button" id="btnAdd">추가</button>&nbsp;&nbsp;
+        <button type="button" id="btnDel">삭제</button>&nbsp;&nbsp;
+        <button type="button" onclick="goClier()">초기화</button>
+        <table style="width: 80%; margin: auto; border: blue 1px solid">
+            <!-- 테이블은 기본적으로 테두리가 없어. 스타일은 픽셀보다 %로 줘야 호환성이 좋음 -->
+            <colgroup>
+                <!-- 열별로 스타일 지정하기위한 목적 -->
+                <col style="width: 30%" />
+                <col style="width: 40%" />
+                <col style="width: 30%" />
+            </colgroup>
+            <thead>
+                <th>품목</th>
+                <th>수량</th>
+                <th>단가</th>
+            </thead>
+            <tbody id="tbody" style="border-bottom: 1px solid">
+                <tr>
+                    <td>
+                        <input
+                            type="text"
+                            name="product_name"
+                            id="product_name"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            name="product_count"
+                            id="product_count"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            name="product_price"
+                            id="product_price"
+                        />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
+<script>
+    let data = [
+        { name: "새우깡", count: 2, price: 2000 },
+        { name: "꿀꽈베기", count: 3, price: 2500 },
+        { name: "자갈치", count: 4, price: 3000 },
+        { name: "맛동산", count: 5, price: 3500 },
+        { name: "에이스", count: 6, price: 4000 },
+    ];
+
+    // function load() {
+    //     var tbody = document.getElementById("tbody");
+    //     for (item of data) {
+    //         var row = tbody.insertRow(tbody.rows.length);
+    //         var cell1 = row.insertCell(0);
+    //         var cell2 = row.insertCell(1);
+    //         var cell3 = row.insertCell(2);
+    //         cell1.innerHTML = item.name;
+    //         cell2.innerHTML = item.count;
+    //         cell3.innerHTML = item.price;
+    //     }
+    // }
+
+    window.onload = () => {
+        document.getElementById("btnAdd").addEventListener("click", goAdd);
+        document.getElementById("btnDel").addEventListener("click", goDel);
+    };
+
+    function goAdd() {
+        tbody = document.getElementById("tbody");
+        console.log(tbody.rows.length); //데이터 개수확인
+
+        row = tbody.insertRow(tbody.rows.length); // 맨아래 새로운행추가
+        cell1 = row.insertCell(0); //새로운 셀추가
+        cell2 = row.insertCell(1);
+        cell3 = row.insertCell(2);
+        cell1.innerHTML =
+            '<input type = "text" name="product_name" id="product_name">';
+        cell2.innerHTML =
+            '<input type = "text" name="product_count" id="product_count">';
+        cell3.innerHTML =
+            '<input type = "text" name="product_price" id="product_price">';
+    }
+
+    function goDel() {
+        tbody = document.getElementById("tbody");
+        if (tbody.rows.length > 1) {
+            tbody.deleteRow(tbody.rows.length - 1); //index
+        } else alert("더이상 삭제가 불가합니다.");
+    }
+
+    //초기화기능은 어떻게 넣는거지.. 왜 안지워지지..
+    <>
+    function goClear() {
+        document.getElementById("product_name").value = "";
+        document.getElementById("product_count").value = "";
+        document.getElementById("product_price").value = "";
+    }
+</script>

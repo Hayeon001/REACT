@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>화살표함수(람다)</title>
+    </head>
+    <body></body>
+</html>
+<script>
+    //자바스크립트 : 화살표함수 = 람다함수
+    //문자와 숫자 말고도 JSON으로도 가능
+
+    let person = [
+        { name: "홍길동", age: 11, phone: "010-1234-1" },
+        { name: "임꺽정", age: 21, phone: "010-1234-2" },
+        { name: "장길산", age: 41, phone: "010-1234-3" },
+        { name: "이순신", age: 22, phone: "010-1234-4" },
+        { name: "강감찬", age: 15, phone: "010-1234-5" },
+        { name: "김종서", age: 17, phone: "010-1234-6" },
+        { name: "서희", age: 27, phone: "010-1234-7" },
+    ];
+
+    person.push({ name: "김성훈", age: 14, phone: "010-1234-8" });
+
+    person.forEach((p) => {
+        console.log(`${p.name} ${p.age} ${p.phone}`);
+    });
+
+    //문제1. 성이 김씨인사람 찾아내기
+    //p에 JSON 객체가 전달
+    result = person.filter((p) => p.name.startsWith("김"));
+    console.log(result);
+
+    //문제2. 19세 미만
+    ageless19 = person.filter((p) => p.age <= 19); //미성년
+    agege19 = person.filter((p) => p.age > 19); //성년
+
+    console.log(ageless19);
+    console.log(agege19);
+    ///////////////////////////
+    ///////////////////////////
+
+    //정렬 : 데이터를 순서대로 (오름차순, 내림차순)
+
+    // let sorted = person.sort((p) => p.name);    ???
+    // console.log(sorted);
+
+    /* 사용하려면 형태바꿔야해?
+        (method) Array<{ name: string; age: number; phone: string; }>.sort(compareFn?: (a: {
+            name: string;    age: number;    phone: string;
+        }, b: {
+            name: string;    age: number    phone: string;
+        }) => number): {
+            name: string;    age: number;    phone: string;
+        }[]
+    */
+
+    let sorted = person.sort((p1, p2) => p1.age - p2.age);
+    console.log(sorted);
+    //둘이 같으면 0
+    //뒤의 것이 크면 양수를 반환
+
+    let sorted2 = person.sort((p1, p2) => {
+        if (p1.name > p2.name) return 1;
+        else if (p1.name < p2.name) return -1;
+        else return 0;
+    });
+
+    console.log(person);  //원본순서를 바꿔서 출력해버림. sort 버그
+    console.log(sorted2);  //전체코드를 한번에 출력하기때문에 바뀐 상태로 출력. age순서 맞춘거 취소됨
+    //문자는 사전순서로 크고작은거 판단
+
+    //select 오름차순비교
+    //첫번째 p1이 고정
+
+</script>

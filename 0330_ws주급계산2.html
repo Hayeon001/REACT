@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ws주급계산 Jquery로 바꿔보기</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    </head>
+    <body>
+        이름 : <input type="text" id="empName" /> 님<br />
+        일주일간 근무시간 :
+        <input type="text" id="workTime" /> 시간<br />
+        시간당 급여액 :
+        <input type="text" id="hourPay" /> 원<br />
+        주급: <input type = "text" id="result" readonly> </br>
+
+        <button type="button" id="btnConfirm">주급 계산하기</button>&nbsp;&nbsp;
+        <button type="button" id="btnClear">새로입력</button><br />
+
+        
+    </body>
+</html>
+<script>
+    $(document).ready(() => {
+        $("#btnConfirm").click(() => {
+            $("#empName").val(empName);
+            workTime = parseInt($("#workTime").val());
+            hourPay = parseInt($("#hourPay").val());
+            base_pay = workTime * hourPay;
+            over_pay = 0;
+            if (workTime > 20) {
+                over_pay = ((workTime - 20) * hourPay) / 2;
+            }
+
+//////////////////
+//empName 왜 안나오쥐
+////////////////////
+<>
+
+
+            temp = `${empName}의 기본급은 ${base_pay}원 이고, 수당은 ${over_pay}원 입니다.
+                총액은 ${base_pay + over_pay}원 입니다.`;
+
+            //$("#result").val(temp);  //에러
+            $("#result").html(temp);
+        });
+
+        //방법1
+        // $("#btnClear").click(() => {
+        //     $("#empName").val("");
+        //     $("#workTime").val("");
+        //     $("#hourPay").val("");
+        //     $("#result").val("");
+        // });
+
+        //방법2 - input 날리기
+        // $("#btnClear").click(() => {
+        //     $("input").val("");
+        // });
+
+        //방법3 - 자바스크립트
+        $("#btnClear").click(() => {
+            input = document.getElementsByTagName("input");
+            for(i =0; i<input.length; i++){
+                input[i].value="";
+            }
+        });
+    });
+
+</script>
