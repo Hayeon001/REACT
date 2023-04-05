@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <form name="myform" action="/score" method="get">
+            이름 <input type="text" name="name" id="" /> <br />
+            국어 <input type="text" name="kor" id="" /> <br />
+            영어 <input type="text" name="eng" id="" /> <br />
+            수학 <input type="text" name="mat" id="" /> <br />
+
+            <button type="button" id="btn">결과확인</button><br />
+        </form>
+    </body>
+</html>
+<script>
+    window.onload = () => {
+        let btn = document.getElementById("btn");
+
+        btn.addEventListener("click", () => {
+            document.myform.submit();
+        });
+    };
+</script>
