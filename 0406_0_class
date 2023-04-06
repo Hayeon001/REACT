@@ -1,0 +1,65 @@
+MySQL과 연동하기
+
+mysql -u root -p
+1234
+
+show databases;
+
+- 디비생성
+create database mydb default CHARACTER SET UTF8;
+
+- create user 사용자 계정 identified by '비밀번호';
+create user user01 identified by '1234';  #계정만들지만 권한없음
+
+#뭐든. 만든다고 하면 create로 시작함
+#대소문자 상관없음
+
+- 권한을 부여
+  mydb에 대한 모든 접근권한을 계정명@localhost
+grant all privileges on mydb.*TO user01@localhost identified by '1234'; 
+#ok 나오면 끝
+
+EXIT;
+#ctrl+c #quit
+
+
+
+//npm install mysql
+
+
+- 화면 클리어
+cls
+
+
+mysql -u user01 -p
+1234
+
+#툴(무료)
+heidsql
+
+213p
+mysql연동
+
+createPool 로 연결
+port : 3306 (생략가능. 포트번호가 다를땐 넣어줘야함)
+mysql는 비동기
+연결작업을 getConnection 으로
+
+
+////////////////
+한글인식오류
+ALTER DATABASE mydb DEFAULT CHARACTER SET='utf8' COLLATE='utf8_general_ci';
+
+
+
+//101p
+비동기처리 : 프라미스
+- 제작코드 (가수)
+- 소비코드 (팬)
+- 프라미스 : 제작코드와 소비코드 연결
+
+// 공유폴더 http://url.kr/p2zobs
+
+// Axios
+
+
