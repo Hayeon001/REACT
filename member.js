@@ -61,35 +61,68 @@ router.get("/login", async function (req, res, next) {
     res.render("member/member_login");
 });
 
-///
-router.use("/idlogin", async function (req, res, next) {
+router.post("/login", async function (req, res, next) {
     let userid = req.body.userid;
     let password = req.body.password;
-    let sql = `select userid, password from tb_member where userid='${userid}'and password='${password}'`;
-    let result = await commonDB.mysqlRead(sql);
-    //let cnt = rows[0]["cnt"];
-    console.log(result[0], result[1]);
-    if (userid == result[0].userid && password == result[0].password) {
-        res.json({ result: "success" });
-    } else {
-        res.json({ result: "fail" });
+    let sql = `select * from tb_member where userid='${userid}'`;
+    let results = await commonDB.mysqlRead(sql);
+    if (results.length == 0) {
+        res.json({ result: "fail", msg: "아이디가 없습니다." });
+        return;
     }
-    //res.render("member/member_register", { title: "Express" });
+    if (results[0]["password"] != password) {
+        res.json({ result: "fail", msg: "패스워드가 일치하지 않습니다." });
+        return;
+    }
 
-    // try {
-    //     let result = await commonDB.mysqlRead(sql, [userid, password]);
-    //     //console.log("로그인 성공");
-    //     res.json({ result: "로그인 성공" });
-    // } catch (e) {
-    //     console.log(e);
-    //     res.json({ result: "아이디 혹은 패스워드를 확인해주세요" });
-    // }
+    req.session["username"] = results[0]["username"];
+    req.session["userid"] = results[0]["userid"];
+    req.session["email"] = results[0]["email"];
+
+    console.log(results[0]["username"]);
+    console.log(results[0]["userid"]);
+    console.log(results[0]["email"]);
+
+    res.json({ result: "success", msg: "로그온 성공" });
 });
+
+// ///실습
+// router.use("/idlogin", async function (req, res, next) {
+//     let userid = req.body.userid;
+//     let password = req.body.password;
+//     let sql = `select userid, password from tb_member where userid='${userid}'and password='${password}'`;
+//     let result = await commonDB.mysqlRead(sql);
+//     //let cnt = rows[0]["cnt"];
+//     console.log(result[0], result[1]);
+//     if (userid == result[0].userid && password == result[0].password) {
+//         res.json({ result: "success" });
+//     } else {
+//         res.json({ result: "fail" });
+//     }
+//     //res.render("member/member_register", { title: "Express" });
+
+//     // try {
+//     //     let result = await commonDB.mysqlRead(sql, [userid, password]);
+//     //     //console.log("로그인 성공");
+//     //     res.json({ result: "로그인 성공" });
+//     // } catch (e) {
+//     //     console.log(e);
+//     //     res.json({ result: "아이디 혹은 패스워드를 확인해주세요" });
+//     // }
+// });
 
 router.get("/put", async function (req, res, next) {
     let userid = req.query.userid;
     req.session["userid"] = userid;
     console.log(req.session["userid"]);
+});
+
+router.use("/logout", async function (req, res, next) {
+    req.session["userid"] = "";
+    req.session["username"] = "";
+    req.session["email"] = "";
+    res.redirect("/"); //로그아웃하면 index로 이동
+    //req.session.destory();
 });
 
 module.exports = router;

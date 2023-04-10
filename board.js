@@ -1,92 +1,69 @@
-// var express = require("express");
-// var app = express(); // 서버 만들었음
-// var fs = require("fs");
-// var ejs = require("ejs");
+let express = require("express");
+let router = express.Router();
+let commonDB = require("./commonDB");
+let commonUtil = require("./commonUtil");
 
-// //ejs엔진은 views 폴더 아래서 파일을 검색한다
-// app.set("view engine", ejs);
+/* GET home page. */
+router.get("/list/:pg", async function (req, res, next) {
+    let pg = parseInt(req.params.pg);
 
-// let boardList = [
-//     { id: 1, title: "제목1", writer: "작성자1", wdate: "2023-04-04" },
-//     { id: 2, title: "제목2", writer: "작성자2", wdate: "2023-04-05" },
-//     { id: 3, title: "제목3", writer: "작성자3", wdate: "2023-04-06" },
-//     { id: 4, title: "제목4", writer: "작성자4", wdate: "2023-04-07" },
-//     { id: 5, title: "제목5", writer: "작성자5", wdate: "2023-04-08" },
-// ];
+    //pg =1 일때 0부터 시작  -> (pg-1)*10 = 0
+    //    2      10          -> (2 -1)*10 = 10
 
-// app.use("/board/list", (request, response) => {
-//     response.render("board/board_list.ejs", { boardList: boardList });
-// });
+    let sql = `
+              SELECT count (*) cnt
+                FROM tb_board A
+                LEFT OUTER JOIN (SELECT @rownum:=0) B on 1=1
+                LEFT OUTER JOIN tb_member C ON A.writer = C.userid
+              `;
+    let results = await commonDB.mysqlRead(sql, []);
+    let totalCnt = results[0]["cnt"];
 
-// app.use((request, response) => {
-//     response.writeHead(200, { "Content-type": "text/html" });
-//     response.end("<H1>Express</H1>");
-// });
+    // sql = `
+    //           SELECT A.id, A.title, A.writer, A.num, A.username, DATE_FORMAT(A.wdate, '%Y-%m-%d') wdate
+    //           FROM
+    //           (
+    //             SELECT A.id, A.title, A.writer, A.wdate, C.username, @rownum:=@rownum+1 num
+    //             FROM tb_board A
+    //             LEFT OUTER JOIN (SELECT @rownum:=0) B on 1=1
+    //             LEFT OUTER JOIN tb_member C ON A.writer = c.userid
+    //             ORDER BY id DESC
+    //           )A
+    //           LIMIT 0,10;  <-페이지 고정
+    //           `;
 
-// app.listen(4000, () => {
-//     console.log("server start http://127.0.0.1:4000");
-// });
-
-/////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-
-var express = require("express");
-var app = express(); // 서버 만들었음
-var fs = require("fs");
-var ejs = require("ejs");
-
-//ejs엔진은 views 폴더 아래서 파일을 검색한다
-app.set("view engine", ejs);
-app.use(express.urlencoded({ extended: false })); // 미들웨어 필요!   ////////////////
-
-let boardList = [
-    { id: 1, title: "제목1", writer: "작성자1", wdate: "2023-04-04" },
-    { id: 2, title: "제목2", writer: "작성자2", wdate: "2023-04-05" },
-    { id: 3, title: "제목3", writer: "작성자3", wdate: "2023-04-06" },
-    { id: 4, title: "제목4", writer: "작성자4", wdate: "2023-04-07" },
-    { id: 5, title: "제목5", writer: "작성자5", wdate: "2023-04-08" },
-];
-
-app.use("/board/list", (request, response) => {
-    response.render("board/board_list.ejs", { boardList: boardList });
-});
-
-app.use("/board/view/:id", (request, response) => {              ////////////////
-    let id = request.params.id;
-    let item = boardList.filter((x) => x.id == id);
-    response.render("board/board_view.ejs", { item: item[0] });
-});
-
-//페이지만 이동. board_writer.ejs로 이동만
-app.use("/board/write", (request, response) => {
-    let id = request.params.id;
-    let item = boardList.filter((x) => x.id == id);
-    response.render("board/board_write.ejs");
-});
-
-//저장하기
-app.use("/board/save", (request, response) => {
-    let title = request.body.title;
-    let contents = request.body.contents;
-    let writer = request.body.writer;
-    let id = boardList.length + 1;
-    boardList.push({
-        id: id,
-        title: title,
-        contents: contents,
-        writer: writer,
+    sql = `
+          SELECT A.id, A.title, A.writer, A.num, A.username, DATE_FORMAT(A.wdate, '%Y-%m-%d') wdate
+          FROM 
+          (
+            SELECT A.id, A.title, A.writer, A.wdate, C.username, @rownum:=@rownum+1 num
+            FROM tb_board A
+            LEFT OUTER JOIN (SELECT @rownum:=0) B on 1=1
+            LEFT OUTER JOIN tb_member C ON A.writer = c.userid
+            ORDER BY id DESC
+          )A
+          LIMIT ${(pg - 1) * 10}, 10;
+          `;
+    results = await commonDB.mysqlRead(sql, []);
+    console.log(results);
+    res.render("board/board_list", {
+        session: req.session,
+        boardList: results,
+        totalCnt: totalCnt,
+        pg: pg,
+        paging: commonUtil.getPaging(pg, totalCnt),
     });
-    response.redirect("/board/list"); //강제이동
 });
 
-app.use((request, response) => {
-    response.writeHead(200, { "Content-type": "text/html" });
-    response.end("<H1>Express</H1>");
+router.get("/view/:id", async function (req, res, next) {
+    let id = req.params.id;
+    let sql = `select id, title, writer, contents, date_format(wdate, '%Y-%m-%d') wdate
+         from tb_board
+         where id =${id}
+        `;
+    let results = await commonDB.mysqlRead(sql, []);
+
+    res.render("board/board_view", { item: results[0] });
 });
 
-app.listen(4000, () => {
-    console.log("server start http://127.0.0.1:4000");
-});
-// qurey
-// params
-// body
+module.exports = router;

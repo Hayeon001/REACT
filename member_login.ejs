@@ -39,6 +39,7 @@
                         class="form-control"
                         placeholder="아이디"
                         id="userid"
+                        name="userid"
                     />
                 </div>
 
@@ -48,6 +49,7 @@
                         class="form-control"
                         placeholder="페스워드"
                         id="password"
+                        name="password"
                     />
                 </div>
 
@@ -66,7 +68,7 @@
                         <button
                             type="button"
                             class="btn btn-primary"
-                            id="btnLoginCancel"
+                            id="btnCancel"
                         >
                             취소</button
                         >&nbsp;&nbsp;
@@ -79,40 +81,75 @@
 
 <script>
     $(document).ready(() => {
-        $("#btnLogin").click(() => {
-            let userid = $("#userid").val();
-            let password = $("#password").val();
-
-            $.ajax({
-                url: "/member/idlogin",
-                data: { userid: userid, password: password },
-                method: "post",
-                dataType: "json",
-            })
-                .then((result) => {
-                    console.log(result);
-                })
-                .catch((res, status, error) => {
-                    console.log(status);
-                });
-        });
+        $("#btnLogin").click(goLogin);
+        $("#btnCancel").click(goCancel);
     });
+
+    function goLogin() {
+        $.ajax({
+            url: "/member/login",
+            data: {
+                userid: $("#userid").val(),
+                password: $("#password").val(),
+            },
+            dataType: "json",
+            method: "post",
+        })
+            .done((res) => {
+                console.log(res.result);
+                if (res.result == "success") {
+                    alert(res.msg);
+                    location.href = "/"; //첫번째 페이지로
+                } else {
+                    alert(res.msg);
+                }
+            })
+            .fail((res, status, error) => {
+                console.log(status);
+            });
+    }
+
+    function goCancel() {
+        var frm = document.form;
+        frm.action = "/member/save";
+        frm.submit();
+    }
+    // //실습
+    // $(document).ready(() => {
+    //     $("#btnLogin").click(() => {
+    //         let userid = $("#userid").val();
+    //         let password = $("#password").val();
+
+    //         $.ajax({
+    //             url: "/member/idlogin",
+    //             data: { userid: userid, password: password },
+    //             method: "post",
+    //             dataType: "json",
+    //         })
+    //             .then((result) => {
+    //                 console.log(result);
+    //             })
+    //             .catch((res, status, error) => {
+    //                 console.log(status);
+    //             });
+    //     });
+    // });
 
     function goWrite() {
         var frm = document.form;
-        frm.action = "/board/save";
+        frm.action = "/member/save";
         frm.submit();
     }
 
     function goModify() {
         var frm = document.form;
-        frm.action = "/board/modify_save";
+        frm.action = "/member/modify_save";
         frm.submit();
     }
 
     function goCancel() {
         var frm = document.form;
-        frm.action = "/board/list";
+        frm.action = "/member/list";
         frm.submit();
     }
 </script>
