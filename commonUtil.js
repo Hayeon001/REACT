@@ -35,4 +35,33 @@ function getPaging(pg, totalCnt, pageGroupSize = 10) {
 //     getPaging(i, 320);
 // }
 
+
+//write
+function checkInfo(req, checkInfos){
+    msg="";
+    result=0;
+    resultInfo={};
+
+    for(info of checkInfos){
+        //undefind : 상대방이 키값을 아예 안보냄
+        if(req.body[info.key]==undefined){
+            msg= msg += info.key + "is empty\n";
+            result =1;
+            req.body[info.key]=""; //다음 처리를 위해 가급적 else 사용하지 말기
+        }
+
+        //타입체크. 범위체크
+        if(info.type=="str" && info.range !=-1 && req.body[info.key].length>info.range){
+            msg = msg += info.key + "range error\n";
+            //에러를 쭈욱 이어서 한번에 알려주기
+        }
+    }
+    resultInfo[info.key] = req.body[info.key];
+    resultInfo["result"] = result;
+    resultInfo["msg"] = msg;
+
+    return resultInfo;
+}
+
 exports.getPaging = getPaging;
+exports.checkInfo = checkInfo;
